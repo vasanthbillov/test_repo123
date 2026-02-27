@@ -1,0 +1,121 @@
+---
+job: "extension"
+config:
+  name: "royal_bc_lora"
+  process:
+    - type: "diffusion_trainer"
+      training_folder: "C:\\VASANTH_DRIVE\\Learn\\projects\\ai-toolkit\\output"
+      sqlite_db_path: "./aitk_db.db"
+      device: "cuda"
+      trigger_word: "royalmatchstyle"
+      performance_log_every: 10
+      network:
+        type: "lora"
+        linear: 64
+        linear_alpha: 64
+        conv: 32
+        conv_alpha: 32
+        lokr_full_rank: true
+        lokr_factor: -1
+        network_kwargs:
+          ignore_if_contains: []
+      save:
+        dtype: "bf16"
+        save_every: 250
+        max_step_saves_to_keep: 4
+        save_format: "diffusers"
+        push_to_hub: false
+      datasets:
+        - folder_path: "C:\\VASANTH_DRIVE\\Learn\\projects\\ai-toolkit\\datasets/images"
+          mask_path: null
+          mask_min_value: 0.1
+          default_caption: ""
+          caption_ext: "txt"
+          caption_dropout_rate: 0.05
+          cache_latents_to_disk: false
+          is_reg: false
+          network_weight: 1
+          resolution:
+            - 512
+            - 768
+            - 1024
+          controls: []
+          shrink_video_to_frames: true
+          num_frames: 1
+          flip_x: false
+          flip_y: false
+          num_repeats: 1
+          control_path_1: null
+          control_path_2: null
+          control_path_3: null
+      train:
+        batch_size: 1
+        bypass_guidance_embedding: false
+        steps: 3500
+        gradient_accumulation: 1
+        train_unet: true
+        train_text_encoder: false
+        gradient_checkpointing: true
+        noise_scheduler: "flowmatch"
+        optimizer: "adamw8bit"
+        timestep_type: "weighted"
+        content_or_style: "style"
+        optimizer_params:
+          weight_decay: 0.0001
+        unload_text_encoder: false
+        cache_text_embeddings: true
+        lr: 0.00015
+        ema_config:
+          use_ema: false
+          ema_decay: 0.99
+        skip_first_sample: false
+        force_first_sample: false
+        disable_sampling: false
+        dtype: "bf16"
+        diff_output_preservation: false
+        diff_output_preservation_multiplier: 1
+        diff_output_preservation_class: "person"
+        switch_boundary_every: 1
+        loss_type: "mse"
+      logging:
+        log_every: 1
+        use_ui_logger: true
+      model:
+        name_or_path: "black-forest-labs/FLUX.2-klein-base-9B"
+        quantize: true
+        qtype: "qfloat8"
+        quantize_te: true
+        qtype_te: "qfloat8"
+        arch: "flux2_klein_9b"
+        low_vram: true
+        model_kwargs:
+          match_target_res: true
+        layer_offloading: false
+        layer_offloading_text_encoder_percent: 1
+        layer_offloading_transformer_percent: 1
+      sample:
+        sampler: "flowmatch"
+        sample_every: 250
+        width: 1024
+        height: 1024
+        samples:
+          - prompt: "royalmatchstyle,Game image showcasing a stylized 3D render set in a lush forest environment with vibrant green leafy trees forming a dense canopy in the midground and background, casting soft, diffused shadows. The foreground features a stone pedestal adorned with golden geometric patterns and scattered gold coins and colorful gems on top, serving as a compositional anchor. A carved stone arch with yellow and red ornamental design and creeping vines frames the upper central area, enhancing spatial layering and depth. Lighting is bright and balanced, emphasizing warm color tones in golds and greens, with clear blue sky visible above, creating high scene readability from a mid-level frontal camera perspective. Two cartoonish characters occupy the foreground: a slender male explorer wearing a red jacket with fabric folds, a white hat with a red band, and a brown backpack roll, holding nothing in hand; and a robust male king figure clad in a purple tunic with gold trim, a golden crown with red accents, and heavy leather boots, both positioned in full body view. Their poses are upright and engaging, facing forward with visible facial details, neutral happy expressions, simplified stylized features, and smooth shading. The characters maintain clear silhouette contrast with the environment and objects. The scene includes a subtle tile floor pattern underfoot contributing to level design clarity. Text element “WIN TOURNAMENTS” is placed unobtrusively in the bottom area with bold sans-serif typography, complementing the bright, warm color palette and overall compositional balance."
+          - prompt: "royalmatchstyle,A stylized 3D-rendered candy shop interior with a warm, evenly lit wooden floor reflecting sunlight streaming from off-screen left, casting soft shadows for depth. Foreground features a colorful cotton candy cart on wooden wheels, and a candy gumball machine with a striped red and gold body placed on a blue circular rug. Midground includes a round table with a multi-tiered chocolate cake surrounded by dome-covered assorted candies and small candy figurines, balanced compositionally in the center. Background reveals a double-story shelving setup with glass jars of colorful candy arranged by hue on both floors, supported by white and gold-trimmed columns and railings. A large twisted candy pole with spiraled red and white stripes accented by hanging lollipops occupies left-middle ground, with barrels holding oversized lollipops nearby, creating spatial layering. Walls painted in blue with wooden shelves and minimal decorative elements provide contrast to the warm golden tones of the floor and furniture. Camera perspective is wide and slightly elevated, ensuring clear legibility of props, spatial relationships, and full environment layout with no characters present. The dominant palette consists of pastel pinks, blues, reds, and golds, emphasizing a playful yet organized commercial interior."
+          - prompt: "royalmatchstyle,The image depicts a stylized 3D-rendered factory environment focused on a compact assembly line within an indoor industrial biome. The foreground features a conveyor belt system with robotic arms and multiple colored buttons (orange, blue, green) integrated into the machinery, exhibiting a layered mechanical complexity. Midground elements include cylindrical tanks, pipes with valves, and various control panels, while the background reveals interconnected yellow-orange pipes arranged horizontally and vertically against purple walls, contributing to spatial depth. The terrain consists of a tiled floor with a pinkish-white color gradient that enhances perspective. Lighting is diffuse, with an overall warm color temperature and subtle shadows, emphasizing volumetrics around pipes and machines without harsh contrasts. Atmospheric effects are minimal, maintaining clear scene readability. The dominant color palette combines pastel purples, yellows, oranges, and blues. The camera perspective is an isometric wide shot offering full visibility of the factory's spatial organization and workstations. No characters are present in the scene. The art style is clean, cartoonish, and optimized for mobile game assets, emphasizing clarity and compositional balance in level design."
+          - prompt: "royalmatchstyle,Indoor office environment with a warm, stylized game art design featuring a brightly lit room from large windows on the right side, casting soft diffused daylight with a cool color temperature. The scene is composed in a mid-angle top-down perspective, highlighting a wooden plank floor with layered depth from foreground potted plants with glossy green leaves, midground furniture, and background walls. The main structure consists of a curved desk with purple and yellow accents, a purple office chair, and a yellow sectional sofa adorned with purple cushions in the midground. A circular pink and yellow patterned rug anchors a round table with a white cloth and punch bowl with cups. Adjacent shelving holds trophies and awards, and a red mini fridge adds vibrant color. A rack with colorful coats introduces vertical layering alongside wooden crates and a gumball machine. Decorative wall elements include a heraldic crown emblem with flanking banners and three clocks beneath, all contributing to compositional balance. An ornate chandelier with pearl and crystal details hangs centrally, casting subtle ambient light. The environment uses a dominant palette of warm yellows, purples, pinks, soft wood tones, and cool teal walls with a floral pattern, maintaining spatial clarity and inviting readability typical of polished 3D-rendered mobile game assets. No characters present."
+          - prompt: "royalmatchstyle,A stylized 3D render of an indoor boutique environment with a fantasy theme, featuring a two-level layout with a wooden floor and light blue vertical striped walls. The foreground contains a turquoise rug with subtle patterning, small display tables covered by glass domes, and a stand with colorful mushrooms. Midground elements include shelving with folded cloth in green, yellow, and magenta, glass bottles with vibrant liquids on a wooden countertop, and a centerpiece display pedestal holding a red cushion topped with a golden crown and a large purple gemstone beneath a clear glass cover. Against the left wall, hanger racks present pink and purple crown-emblazoned t-shirts and hats with feathered accents. The right side displays a wooden staircase with white railings ascending to a balcony lined with white balusters, displaying three handbags in purple, mustard, and green, beneath wall-mounted candle sconces with warm yellow lighting. The background shows ceiling-high bookshelves with colorful books. Lighting is soft and diffuse with warm yellow and cool blue color temperatures, producing minimal shadows, with no atmospheric effects. The camera perspective is a slightly elevated wide shot angled downward for compositional clarity and clear spatial layering of objects. No visible characters are present. The dominant color palette includes pastel blues, purples, and greens accented by warm gold and wood tones, creating compositional balance suitable for mobile game asset presentation."
+          - prompt: "royalmatchstyle,The image depicts an indoor medieval alchemy room environment with a dark stone brick wall background and dim, cool ambient lighting contrasted by the warm, saturated light emanating from a large central cauldron. The cauldron, positioned prominently in the midground, is oversized, round, and predominantly purple with golden handles and a central red gem, creating strong color contrast. Surrounding the scene are shelves with scrolls, potions, and other alchemical props, adding depth and layering to the background. The characters include a middle-aged king with a round body proportion, wearing a detailed golden crown and a royal purple and yellow robe, pouring green and blue potions into the cauldron, captured in a mid-shot. A robed male advisor with gray hair and mustache stands to the left, holding an open book with a crown emblem, dressed in layered red and purple fabric with detailed lighting that accentuates cloth folds. To the right, a small anthropomorphic dog stands on stacked books, wearing a blue wizard's hat with a yellow crescent, presented in three-quarter view with warm orange fur tones contrasting the overall cool environment. The characters and props exhibit a highly stylized 3D rendered game art style with smooth shading and vibrant color palettes, clear spatial layering with balanced composition, and an overall bright yet focused lighting scheme enhancing readability and silhouette clarity."
+          - prompt: "create this to royalmatchstyle"
+          - prompt: "create this to royalmatchstyle"
+          - prompt: "create this to royalmatchstyle"
+          - prompt: "create this to royalmatchstyle"
+        neg: ""
+        seed: 42
+        walk_seed: true
+        guidance_scale: 4
+        sample_steps: 25
+        num_frames: 1
+        fps: 1
+meta:
+  name: "[name]"
+  version: "1.0"
